@@ -28,7 +28,7 @@ License : MIT license {{{
 }}}
 
 ==============================================================================
-CONTENTS				*Vital.HitAHint-contents*
+CONTENTS				*Vital.HitAHint.Hint-contents*
 
 INTRODUCTION		|Vital.HitAHint.Hint-introduction|
 INTERFACE		|Vital.HitAHint.Hint-interface|
