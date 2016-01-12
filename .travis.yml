@@ -20,10 +20,12 @@ install:
   - if [ x"$HEAD" = "xyes" ]; then export PATH=$HOME/vim/bin:$PATH; fi
   - pip install --user vim-vint
   - export PATH=$PATH:$HOME/.local/bin
-  - git clone https://github.com/syngan/vim-vimlint /tmp/vim-vimlint
-  - git clone https://github.com/ynkdir/vim-vimlparser /tmp/vim-vimlparser
+  - git clone https://github.com/syngan/vim-vimlint --depth 1 /tmp/vim-vimlint
+  - git clone https://github.com/ynkdir/vim-vimlparser --depth 1 /tmp/vim-vimlparser
   - git clone https://github.com/thinca/vim-themis --branch v1.5 --single-branch --depth 1 /tmp/vim-themis
-  - git clone https://github.com/haya14busa/vital-power-assert /tmp/vital-power-assert
+  - git clone https://github.com/vim-jp/vital.vim --depth 1 ~/.vim/bundle/vital.vim
+  - git clone https://github.com/haya14busa/vital-vimlcompiler --depth 1 ~/.vim/bundle/vital-vimlcompiler
+  - git clone https://github.com/haya14busa/vital-power-assert --depth 1 ~/.vim/bundle/vital-power-assert
 
 before_script:
   - vim --version
@@ -34,4 +36,4 @@ script:
   - vim --cmd version --cmd quit
   - vim --cmd "try | helptags doc/ | catch | cquit | endtry" --cmd quit
   - sh /tmp/vim-vimlint/bin/vimlint.sh -l /tmp/vim-vimlint -p /tmp/vim-vimlparser -e EVL102.l:_=1 -c func_abort=1 autoload
-  - /tmp/vim-themis/bin/themis --runtimepath /tmp/vital.vim --runtimepath /tmp/vital-vimlcompiler --runtimepath /tmp/vital-power-assert --reporter spec
+  - /tmp/vim-themis/bin/themis --reporter spec
