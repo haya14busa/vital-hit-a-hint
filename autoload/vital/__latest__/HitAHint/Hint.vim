@@ -23,10 +23,6 @@ function! s:_vital_loaded(V) abort
   endif
 endfunction
 
-function! s:_vital_depends() abort
-  return ['Vim.PowerAssert']
-endfunction
-
 " TERMS:
 "   key: A character to generate hint. e.g. a,b,c,d,e,f,...
 "   hint: A hint is a combination of keys. e.g. a,b,ab,abc,..
