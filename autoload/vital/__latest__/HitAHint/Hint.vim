@@ -2,9 +2,24 @@ function! s:_vital_loaded(V) abort
   if a:V.exists('Vim.PowerAssert')
     let s:assert = a:V.import('Vim.PowerAssert').assert
   else
+    " function() wrapper
+    if v:version > 703 || v:version == 703 && has('patch1170')
+        function! s:_function(fstr) abort
+            return function(a:fstr)
+        endfunction
+    else
+        function! s:_SID() abort
+            return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze__SID$')
+        endfunction
+        let s:_s = '<SNR>' . s:_SID() . '_'
+        function! s:_function(fstr) abort
+            return function(substitute(a:fstr, 's:', s:_s, 'g'))
+        endfunction
+    endif
+
     function! s:_assert(...) abort
     endfunction
-    let s:assert = function('s:_assert')
+    let s:assert = s:_function('s:_assert')
   endif
 endfunction
 
