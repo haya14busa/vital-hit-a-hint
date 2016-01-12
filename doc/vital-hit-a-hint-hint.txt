@@ -1,4 +1,4 @@
-*vital-hit-a-hint.txt*	Hint module of Hit-A-Hint library for Vim script
+*vital-hit-a-hint-hint.txt*	Hint module of Hit-A-Hint library for Vim script
 
 
 Author  : haya14busa <hayabusa1419@gmail.com>
@@ -35,16 +35,16 @@ INTERFACE		|Vital.HitAHint.Hint-interface|
   FUNCTIONS			|Vital.HitAHint.Hint-functions|
 
 ==============================================================================
-INTRODUCTION				*Vital.HitAHint-introduction*
+INTRODUCTION				*Vital.HitAHint.Hint-introduction*
 
 *Vital.HitAHint.Hint* provides hint modules of |Vital.HitAHint|.
 
 ==============================================================================
-INTERFACE				*Vital.Vim.PowerAssert-interface*
+INTERFACE				*Vital.HitAHint.Hint-interface*
 ------------------------------------------------------------------------------
-FUNCTIONS				*Vital.Vim.PowerAssert-functions*
+FUNCTIONS				*Vital.HitAHint.Hint-functions*
 
-create({targets}, {keys})		*Vital.Data.List.pop()*
+create({targets}, {keys})		*Vital.HitAHint.Hint-create()*
 	Assigns {keys} to each {targets} and generate hint dict.
 	TERMS:
 	  key: A character to generate hint. e.g. a,b,c,d,e,f,...
