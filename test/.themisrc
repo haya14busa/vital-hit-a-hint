@@ -1,0 +1,10 @@
+call themis#option('recursive', 1)
+call themis#option('runtimepath', expand('~/.vim/bundle/vital.vim'))
+call themis#option('runtimepath', expand('~/.vim/bundle/vital-vimlcompiler'))
+call themis#option('runtimepath', expand('~/.vim/bundle/vital-power-assert'))
+
+let g:__vital_power_assert_config = {
+\   '__debug__': 1,
+\   '__pseudo_throw__': 0,
+\   '__max_length__': -1
+\ }

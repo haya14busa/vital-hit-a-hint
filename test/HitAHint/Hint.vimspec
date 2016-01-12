@@ -1,0 +1,102 @@
+Describe HinAHint.Hint
+
+  Before all
+    let V = vital#of('vital')
+    let Hint = V.import('HitAHint.Hint')
+    execute V.import('Vim.PowerAssert').define('PowerAssert')
+    let scope = themis#helper('scope')
+    let S = scope.funcs('autoload/vital/__latest__/HitAHint/Hint.vim')
+  End
+
+  Describe .create()
+    It assignes keys to target (flat)
+      PowerAssert Hint.create([1], ['a', 'b', 'c', 'd']) == {'a': 1}
+      PowerAssert Hint.create([1, 1], ['a', 'b', 'c', 'd']) == {'a': 1, 'b': 1}
+    End
+
+    It assignes keys to target
+      PowerAssert Hint.create([1, 2, 3, 4, 5], ['a', 'b', 'c']) ==
+      \   {'a': 1, 'b': 2, 'c': {'a': 3, 'b': 4, 'c': 5}}
+
+      PowerAssert Hint.create([1, 2, 3, 4, 5], ['a', 'b', 'c', 'd']) ==
+      \   {'a': 1, 'b': 2, 'c': 3, 'd': {'a': 4, 'b': 5}}
+
+      PowerAssert Hint.create([1, 2, 3, 4, 5, 6], ['a', 'b']) ==
+      \ {
+      \   'a': {
+      \     'a': 1,
+      \     'b': {
+      \       'a': 2,
+      \       'b': 3
+      \     }
+      \   },
+      \   'b': {
+      \     'a': 4,
+      \     'b': {
+      \       'a': 5,
+      \       'b': 6
+      \     }
+      \   }
+      \ }
+
+      PowerAssert Hint.create([1, 2, 3, 4, 5, 6], ['a', 'b', 'c']) ==
+      \ {
+      \   'a': 1,
+      \   'b': {
+      \     'a': 2,
+      \     'b': 3
+      \   },
+      \   'c': {
+      \     'a': 4,
+      \     'b': 5,
+      \     'c': 6
+      \   }
+      \ }
+
+      PowerAssert Hint.create([1, 2, 3, 4, 5, 6, 7], ['a', 'b', 'c']) ==
+      \ {
+      \   'a': 1,
+      \   'b': {
+      \     'a': 2,
+      \     'b': 3,
+      \     'c': 4,
+      \   },
+      \   'c': {
+      \     'a': 5,
+      \     'b': 6,
+      \     'c': 7
+      \   }
+      \ }
+
+      PowerAssert Hint.create([1, 2, 3, 4, 5, 6, 7, 8], ['a', 'b', 'c']) ==
+      \ {
+      \   'a': {
+      \     'a': 1,
+      \     'b': 2,
+      \   },
+      \   'b': {
+      \     'a': 3,
+      \     'b': 4,
+      \     'c': 5,
+      \   },
+      \   'c': {
+      \     'a': 6,
+      \     'b': 7,
+      \     'c': 8
+      \   }
+      \ }
+    End
+  End
+
+  Describe ._keys_count()
+    It generates list which represents how many targets to be assigned to the key.
+      PowerAssert S._keys_count(5, 3) == [3, 1, 1]
+      PowerAssert S._keys_count(8, 3) == [3, 3, 2]
+      PowerAssert S._keys_count(3, 3) == [1, 1, 1]
+      PowerAssert S._keys_count(10, 3) == [4, 3, 3]
+      PowerAssert S._keys_count(11, 3) == [5, 3, 3]
+      PowerAssert S._keys_count(11, 2) == [6, 5]
+    End
+  End
+
+End
