@@ -100,7 +100,7 @@ function! s:_keys_count(targets_len, keys_len) abort
       let _keys_count[i] += cnt_to_add
       let targets_left_cnt -= cnt_to_add
       if targets_left_cnt <= 0
-        let _keys_count[i] += targets_left_cnt 
+        let _keys_count[i] += targets_left_cnt
         break
       endif
     endfor
