@@ -47,7 +47,8 @@ endfunction
 let s:overwin = {
 \   'config': {
 \     'keys': 'asdghklqwertyuiopzxcvbnmfj;',
-\     'user_upper': s:FALSE,
+\     'use_upper': s:FALSE,
+\     'auto_land': s:TRUE,
 \     'highlight': {
 \       'shade': 'HitAHintShade',
 \       'target': 'HitAHintTarget',
@@ -92,13 +93,11 @@ function! s:overwin.pattern(pattern) abort
 endfunction
 
 function! s:overwin.select_winpos(winnr2poses, keys) abort
-  return self.choose_prompt(s:create_hint_dict(a:winnr2poses, a:keys))
-endfunction
-
-function! s:create_hint_dict(winnr2poses, keys) abort
   let wposes = s:winnr2poses_to_list(a:winnr2poses)
-  let hint_dict = s:Hint.create(wposes, a:keys)
-  return hint_dict
+  if self.config.auto_land && len(wposes) is# 1
+    return wposes[0]
+  endif
+  return self.choose_prompt(s:Hint.create(wposes, a:keys))
 endfunction
 
 " s:wpos_to_hint() returns dict whose key is position with window and whose
@@ -174,7 +173,7 @@ function! s:overwin.choose_prompt(hint_dict) abort
     redraw
     echo 'Target key: '
     let c = s:getchar()
-    if self.config.user_upper
+    if self.config.use_upper
       let c = toupper(c)
     endif
   finally
@@ -210,8 +209,6 @@ let s:Hinter = {
 \   'highlight_ids': {},
 \ }
 
-" @param {{winnr: {string: list<char>}}}
-" function! s:Hinter.new(win2pos2hint) abort
 function! s:Hinter.new(hint_dict, config) abort
   let s = deepcopy(self)
   let s.config = a:config
