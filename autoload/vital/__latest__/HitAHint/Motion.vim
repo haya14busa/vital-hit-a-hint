@@ -53,6 +53,7 @@ let s:overwin = {
 \       'shade': 'HitAHintShade',
 \       'target': 'HitAHintTarget',
 \     },
+\     'jump_first_target_keys': [],
 \   }
 \ }
 
@@ -180,6 +181,11 @@ function! s:overwin.choose_prompt(hint_dict) abort
   finally
     call hinter.after()
   endtry
+
+  " Jump to first target if target key is in config.jump_first_target_keys.
+  if index(self.config.jump_first_target_keys, c) isnot# -1
+    let c = split(self.config.keys, '\zs')[0]
+  endif
 
   if has_key(a:hint_dict, c)
     let target = a:hint_dict[c]
