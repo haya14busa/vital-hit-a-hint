@@ -57,10 +57,8 @@ let s:overwin = {
 \ }
 
 function! s:_init_hl() abort
-  highlight HitAHintShade ctermfg=242 guifg=#777777
-  " highlight HitAHintTarget cterm=bold ctermfg=196 gui=bold guifg=#ff0000
-  " highlight HitAHintTarget term=standout ctermfg=81 gui=bold guifg=#66D9EF
-  highlight HitAHintTarget ctermfg=81 gui=bold guifg=#66D9EF
+  highlight default HitAHintShade ctermfg=242 guifg=#777777
+  highlight default HitAHintTarget ctermfg=81 guifg=#66D9EF
 endfunction
 
 call s:_init_hl()
@@ -460,6 +458,7 @@ function! s:Hinter._show_hint_for_line(winnr, lnum, col2hint) abort
 
     let prev_cnum = cnum
   endfor
+  call s:setline(a:lnum, line)
 endfunction
 
 " ._replace_line_for_hint() replaces line to show hints.
@@ -479,7 +478,6 @@ function! s:Hinter._replace_line_for_hint(lnum, col_num, line, hint) abort
   if target is# ''
     let hintwidth = strdisplaywidth(join(a:hint[:1], ''))
     let line .= repeat(' ', hintwidth)
-    call s:setline(a:lnum, line)
     return [line, hintwidth, 0]
   endif
 
@@ -509,7 +507,6 @@ endfunction
 function! s:Hinter._replace_text_to_space(line, lnum, col_num, len) abort
   let target = printf('\%%%dc.', a:col_num)
   let line = substitute(a:line, target, repeat(' ', a:len), '')
-  call s:setline(a:lnum, line)
   return line
 endfunction
 
