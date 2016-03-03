@@ -539,11 +539,10 @@ function! s:Hinter._show_hint_for_line(winnr, lnum, col2hint) abort
     let is_consecutive = cnum is# prev_cnum + 1
     if !is_consecutive
       let col_num += next_offset
-    else
-      let save_next_offset = next_offset
     endif
+    let save_next_offset = next_offset
 
-    let [line, offset, next_offset] = self._replace_line_for_hint(a:lnum, col_num, line, hint)
+    let [line, offset, next_offset] = self._replace_line_for_hint(col_num, line, hint)
 
     if is_consecutive
       let col_offset += save_next_offset
@@ -570,7 +569,7 @@ endfunction
 " depends on the col number of next hint in the same line, so it returns
 " `next_offset` instead of returning offset all at once.
 " @return {(string, number, number)} (line, offset, next_offset)
-function! s:Hinter._replace_line_for_hint(lnum, col_num, line, hint) abort
+function! s:Hinter._replace_line_for_hint(col_num, line, hint) abort
   let line = a:line
   let col_num = a:col_num
   let do_replace_target = !(self.config.do_shade || s:can_preserve_syntax)
@@ -585,9 +584,9 @@ function! s:Hinter._replace_line_for_hint(lnum, col_num, line, hint) abort
 
   let offset = 0
   if target is# "\t"
-    let [line, offset] = self._replace_tab_target(a:lnum, col_num, line)
+    let [line, offset] = self._replace_tab_target(col_num, line)
   elseif strdisplaywidth(target) > 1
-    let line = self._replace_text_to_space(line, a:lnum, col_num, strdisplaywidth(target))
+    let line = self._replace_text_to_space(line, col_num, strdisplaywidth(target))
     let offset = strdisplaywidth(target) - len(target)
   else
     if do_replace_target
@@ -602,19 +601,19 @@ function! s:Hinter._replace_line_for_hint(lnum, col_num, line, hint) abort
   let next_offset = 0
   if len(a:hint) > 1 && target isnot# "\t"
     " pass [' '] as hint to stop recursion.
-    let [line, next_offset, _] = self._replace_line_for_hint(a:lnum, col_num + offset + 1, line, [' '])
+    let [line, next_offset, _] = self._replace_line_for_hint(col_num + offset + 1, line, [' '])
   endif
   return [line, offset, next_offset]
 endfunction
 
 " @return {(line, offset)}
-function! s:Hinter._replace_tab_target(lnum, col_num, line) abort
+function! s:Hinter._replace_tab_target(col_num, line) abort
   let space_len = s:tab2spacelen(a:line, a:col_num)
-  let line = self._replace_text_to_space(a:line, a:lnum, a:col_num, space_len)
+  let line = self._replace_text_to_space(a:line, a:col_num, space_len)
   return [line, space_len - 1]
 endfunction
 
-function! s:Hinter._replace_text_to_space(line, lnum, col_num, len) abort
+function! s:Hinter._replace_text_to_space(line, col_num, len) abort
   let target = printf('\%%%dc.', a:col_num)
   let line = substitute(a:line, target, repeat(' ', a:len), '')
   return line
