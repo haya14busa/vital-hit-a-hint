@@ -36,7 +36,7 @@ LINKS			|Vital.HitAHint-links|
 ==============================================================================
 INTRODUCTION				*Vital.HitAHint-introduction*
 
-*Vital.HitAHint* (*vital-hit-a-hint* , *vital-power-assert.vim* ) provides
+*Vital.HitAHint* (*vital-hit-a-hint* , *vital-hit-a-hint.vim* ) provides
 Hit-A-Hint vital.vim[1] library for Vim script.
 
 [1] https://github.com/vim-jp/vital.vim
